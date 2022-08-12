@@ -7,8 +7,9 @@ import Retention from "./Retention"
 import Referrals from "./Referrals"
 import Monetization from "./Monetization";
 
-export default function UserCategory(props) {
-    const numberOfPeriods = props.numberOfPeriods
+export default function StartupProject(props) {
+    //const numberOfPeriods = props.numberOfPeriods
+    const numberOfPeriods = props.project.numberOfPeriods
     const [acquisitions, setAcquisitions] = React.useState(Array(numberOfPeriods).fill(0))
     const [acquisitionsCost, setAcquisitionsCost] = React.useState(Array(numberOfPeriods).fill(0))
     const [finalActivationPercentage, setFinalActivationPercentage] = React.useState(1.0)
@@ -24,6 +25,8 @@ export default function UserCategory(props) {
                 <Accordion.Body>
                     <AcquisitionElements
                         numberOfPeriods={numberOfPeriods}
+                        projectId={props.project.id}
+                        acquisitionElements={props.project.acquisitionElements}
                         setAcquisitionsData={setAcquisitions}
                         setAcquisitionsCost={setAcquisitionsCost}
                     />

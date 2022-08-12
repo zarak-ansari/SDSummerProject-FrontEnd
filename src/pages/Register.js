@@ -15,7 +15,7 @@ function Register() {
             password: password
         }
 
-        axios.post("http://localhost:8080/api/auth/register", loginPayload)
+        axios.post("api/auth/register", loginPayload)
             .then(response => {
                 //get token from response
                 const token = response.data.token;

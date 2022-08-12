@@ -1,12 +1,12 @@
 import React from "react"
-
+import axios from "axios"
 export default function AcquisitionElements(props) {
 
   const numberOfPeriods = props.numberOfPeriods
 
-  const [linearAcquisitionElements, setLinearAcquisitionElements] = React.useState([])
+  const [acquisitionElements, setAcquisitionElements] = React.useState(() => props.acquisitionElements)
 
-  const acquisitionsInputs = linearAcquisitionElements.map(element => <li key={element.id}>
+  const acquisitionsInputs = acquisitionElements.map(element => <li key={element.id}>
     <label htmlFor="name">Name of the Element</label>
     <input type="text" id="name" name="name" placeholder="name" value={element.name} onChange={(event) => handleChangeInAcquisitionElements(element.id, event)} />
     <label htmlFor="description">Description</label>
@@ -22,14 +22,14 @@ export default function AcquisitionElements(props) {
 
   const handleChangeInAcquisitionElements = (id, event) => {
     event.preventDefault()
-    let data = [...linearAcquisitionElements]
+    let data = [...acquisitionElements]
     data[id][event.target.name] = event.target.value
-    setLinearAcquisitionElements(data)
+    setAcquisitionElements(data)
   }
 
   function createNewAcquisitionElement() {
     return {
-      id: linearAcquisitionElements.length,
+      id: acquisitionElements.length,
       name: "",
       description: "",
       startingValue: 0,
@@ -41,6 +41,8 @@ export default function AcquisitionElements(props) {
   React.useEffect(updateAcquisitionsData, [props.numberOfPeriods])
 
   function updateAcquisitionsData() {
+    axios.post(`/api/startup_project/${props.projectId}/acquisition_elements`, acquisitionElements)
+    console.log(`/api/startup_project/${props.projectId}/acquisition_elements`)
     const acquisitionsResult = []
     const acquisitionsCostsResult = []
 
@@ -49,7 +51,7 @@ export default function AcquisitionElements(props) {
       acquisitionsCostsResult.push(0)
     }
 
-    linearAcquisitionElements.forEach(
+    acquisitionElements.forEach(
       element => {
         for (var i = 0; i < numberOfPeriods; i++) {
           acquisitionsResult[i] += parseInt(element.startingValue) + (i * parseInt(element.incrementEachPeriod))
@@ -63,11 +65,11 @@ export default function AcquisitionElements(props) {
 
   function addAcquisitionElement() {
     const newElement = createNewAcquisitionElement()
-    setLinearAcquisitionElements(prevElements => [...prevElements, newElement])
+    setAcquisitionElements(prevElements => [...prevElements, newElement])
   }
 
   function deleteElement(event, id) {
-    setLinearAcquisitionElements(prev => prev.filter(element => element.id !== id))
+    setAcquisitionElements(prev => prev.filter(element => element.id !== id))
   }
 
 

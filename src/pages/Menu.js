@@ -1,39 +1,51 @@
 import axios from "axios";
 import React from "react";
 import NavigationBar from "../components/NavigationBar"
+import NewProjectForm from "../components/NewProjectForm"
+import StartupProject from "../components/StartupProjectComponents/StartupProject";
+
 function Menu() {
-    let token = ""
-    localStorage.getItem("token") ? token = localStorage.getItem("token") : token = "not found"
 
     const [projects, setProjects] = React.useState([])
 
-    function updateProjects() {
-        axios.get("http://localhost:8080/api/user/projects")
+    function updateProjectList() {
+        axios.get("/api/user/projects")
             .then(response => {
                 setProjects(response.data)
             })
             .catch(err => console.log(err))
+        console.log("update projects ran")
     }
 
-    function addNewProject() {
+    React.useEffect(updateProjectList, [])
 
-        const new_project = {
-            name: "new project",
-            description: "my awesome new project from react"
-        }
-
-        axios.post("http://localhost:8080/api/user/add_project", new_project)
+    function ProjectList() {
+        return (
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Number Of Periods</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        projects.map(project => <tr key={project.id}><td>{project.id}</td><td>{project.name}</td><td>{project.description}</td><td>{project.numberOfPeriods}</td></tr>)
+                    }
+                </tbody>
+            </table>
+        )
     }
-
-    updateProjects()
 
     return (
         <div>
             <NavigationBar />
             <h1>Home Page</h1>
-            <p>{token}</p>
-            <p>{JSON.stringify(projects)}</p>
-            <button onClick={addNewProject}>Add New Project</button>
+            <ProjectList />
+            <NewProjectForm updateProjectList={updateProjectList} />
+            {projects.length > 0 && <StartupProject project={projects[0]} />}
         </div>
     );
 }

@@ -12,7 +12,7 @@ function NavigationBar() {
 
     const [user, setUser] = React.useState("")
 
-    axios.get("http://localhost:8080/api/user/info")
+    axios.get("/api/user/info")
         .then(response => {
             setUser(response.data)
         })
