@@ -1,14 +1,25 @@
 import React from "react"
+import axios from "axios"
 
 function Referrals(props) {
 
     const usersBeforeReferrals = props.usersAfterRetention
     const activationPercentage = props.finalActivationPercentage
     const setUsersAfterCompoundingGrowth = props.setUsersAfterCompoundingGrowth
+    const setCostOfReferrals = props.setCostOfReferrals
 
-    const [percentageOfReferringUsers, setPercentageOfReferringUsers] = React.useState()
-    const [referralsPerUser, setReferralsPerUser] = React.useState()
-    const [costPerReferral, setCostPerReferral] = React.useState()
+    const [referrals, setReferrals] = React.useState(() => props.referrals ? props.referrals : createDefaultReferrals())
+    function createDefaultReferrals() {
+        return ({
+            percentageOfReferringUsers: 0.0,
+            referralsPerUser: 0,
+            costPerReferral: 0
+        })
+    }
+
+    function handleChange(event) {
+        setReferrals(prev => ({ ...prev, [event.target.name]: event.target.value }))
+    }
 
 
     function ReferralForm() {
@@ -20,8 +31,8 @@ function Referrals(props) {
                     id="percentageOfReferringUsers"
                     type="number"
                     placeholder="Percentage of Referring Users"
-                    value={percentageOfReferringUsers}
-                    onChange={(event) => setPercentageOfReferringUsers(event.target.value)}
+                    value={referrals.percentageOfReferringUsers}
+                    onChange={(event) => handleChange(event)}
                 />
                 <label htmlFor="referralsPerUser">Referrals Per User</label>
                 <input
@@ -29,8 +40,8 @@ function Referrals(props) {
                     id="referralsPerUser"
                     type="number"
                     placeholder="Referrals per User"
-                    value={referralsPerUser}
-                    onChange={(event) => setReferralsPerUser(event.target.value)}
+                    value={referrals.referralsPerUser}
+                    onChange={(event) => handleChange(event)}
                 />
                 <label htmlFor="costPerReferral">Referrals Per User</label>
                 <input
@@ -38,25 +49,32 @@ function Referrals(props) {
                     id="costPerReferral"
                     type="number"
                     placeholder="Cost Per Referral"
-                    value={costPerReferral}
-                    onChange={(event) => setCostPerReferral(event.target.value)}
+                    value={referrals.costPerReferral}
+                    onChange={(event) => handleChange(event)}
                 />
 
-                <button onClick={updateUsersAfterReferrals}>Update</button>
+                <button onClick={updateUsersAfterReferralsAndCostOfReferrals}>Update</button>
             </>
         )
     }
 
-    function updateUsersAfterReferrals() {
-        const userAcquisitionPerCurrentUsers = percentageOfReferringUsers * referralsPerUser * activationPercentage
-        const result = Array(usersBeforeReferrals.length).fill(0)
-        result[0] = usersBeforeReferrals[0]
+    function updateUsersAfterReferralsAndCostOfReferrals() {
+
+        axios.post(`/api/startup_project/${props.projectId}/referrals`, referrals)
+        const userAcquisitionPerCurrentUsers = referrals.percentageOfReferringUsers * referrals.referralsPerUser * activationPercentage
+        const resultUsers = Array(usersBeforeReferrals.length).fill(0)
+        const resultCost = Array(usersBeforeReferrals.length).fill(0)
+
+        resultUsers[0] = usersBeforeReferrals[0]
         for (var i = 0; i < usersBeforeReferrals.length - 1; i++) {
-            result[i + 1] = usersBeforeReferrals[i + 1] + (result[i] * userAcquisitionPerCurrentUsers)
+            resultUsers[i + 1] = usersBeforeReferrals[i + 1] + (resultUsers[i] * userAcquisitionPerCurrentUsers)
+            resultCost[i + 1] = usersBeforeReferrals[i] * referrals.percentageOfReferringUsers * referrals.costPerReferral
         }
-        setUsersAfterCompoundingGrowth(result)
+        setCostOfReferrals(resultCost)
+        setUsersAfterCompoundingGrowth(resultUsers)
     }
-    React.useEffect(updateUsersAfterReferrals, [props.usersAfterRetention, props.finalActivationPercentage])
+
+    React.useEffect(updateUsersAfterReferralsAndCostOfReferrals, [props.usersAfterRetention, props.finalActivationPercentage])
 
     return (
         <ReferralForm />

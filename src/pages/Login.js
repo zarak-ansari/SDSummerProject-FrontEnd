@@ -1,14 +1,14 @@
 import React from "react";
 import axios from "axios";
 import { setAuthToken } from "../helpers/setAuthToken"
-
+import { Box, Button, Typography, TextField, Link } from "@mui/material"
 function Login() {
 
     const [email, setEmail] = React.useState("")
     const [password, setPassword] = React.useState("")
 
-    const handleSubmit = () => {
-
+    const handleSubmit = (event) => {
+        event.preventDefault()
         //reqres registered sample user
         const loginPayload = {
             email: email,
@@ -34,19 +34,44 @@ function Login() {
     };
 
     return (
-        <form
-            onSubmit={(event) => {
-                event.preventDefault()
-                const [email, password] = event.target.children;
-                handleSubmit(email, password);
+        <Box
+            component="form"
+            onSubmit={(event) => handleSubmit(event)}
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center'
             }}
         >
-            <label htmlFor="email">Email</label><br />
-            <input type="email" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} /><br />
-            <label htmlFor="password">Password</label><br />
-            <input type="password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} /><br></br>
-            <input type="submit" value="Submit" />
-        </form>
+            <TextField
+                margin="normal"
+                required
+                name="email"
+                label="Email Address"
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+            />
+            <TextField
+                margin="normal"
+                required
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+            />
+            <Button type="submit" variant="contained">Log In</Button>
+            <Link
+                href="/register"
+                variant="body2"
+            >
+                {"Don't have an account? Register here"}
+            </Link>
+        </Box>
+
     );
 }
 export default Login

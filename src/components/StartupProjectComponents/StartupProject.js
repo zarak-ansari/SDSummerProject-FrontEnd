@@ -16,6 +16,7 @@ export default function StartupProject(props) {
     const [usersAfterActivation, setUsersAfterActivation] = React.useState(Array(numberOfPeriods).fill(0))
     const [totalUsersRetained, setTotalUsersRetained] = React.useState(Array(numberOfPeriods).fill(0))
     const [usersAfterCompoundingGrowth, setUsersAfterCompoundingGrowth] = React.useState(Array(numberOfPeriods).fill(0))
+    const [costOfReferrals, setCostOfReferrals] = React.useState(Array(numberOfPeriods).fill(0))
     const [totalRevenue, setTotalRevenue] = React.useState(Array(numberOfPeriods).fill(0))
 
     return (
@@ -40,6 +41,8 @@ export default function StartupProject(props) {
                 <Accordion.Body>
                     <Activation
                         acquisitions={acquisitions}
+                        projectId={props.project.id}
+                        activationElements={props.project.activationElements}
                         setUsersAfterActivation={setUsersAfterActivation}
                         finalActivationPercentage={finalActivationPercentage}
                         setFinalActivationPercentage={setFinalActivationPercentage}
@@ -51,7 +54,13 @@ export default function StartupProject(props) {
             <Accordion><Accordion.Item eventKey="0">
                 <Accordion.Header>Retention</Accordion.Header>
                 <Accordion.Body>
-                    <Retention numberOfPeriods={numberOfPeriods} activatedUsers={usersAfterActivation} setRetainedUsers={setTotalUsersRetained} />
+                    <Retention
+                        projectId={props.project.id}
+                        retentionCurve={props.project.retentionCurve}
+                        numberOfPeriods={numberOfPeriods}
+                        activatedUsers={usersAfterActivation}
+                        setRetainedUsers={setTotalUsersRetained}
+                    />
                     <Chart data={totalUsersRetained} />
                 </Accordion.Body>
             </Accordion.Item></Accordion>
@@ -60,9 +69,12 @@ export default function StartupProject(props) {
                 <Accordion.Header>Referrals</Accordion.Header>
                 <Accordion.Body>
                     <Referrals
+                        projectId={props.project.id}
+                        referrals={props.project.referrals}
                         usersAfterRetention={totalUsersRetained}
                         finalActivationPercentage={finalActivationPercentage}
                         setUsersAfterCompoundingGrowth={setUsersAfterCompoundingGrowth}
+                        setCostOfReferrals={setCostOfReferrals}
                     />
                     <Chart data={usersAfterCompoundingGrowth} />
                 </Accordion.Body>
@@ -71,9 +83,14 @@ export default function StartupProject(props) {
             <Accordion><Accordion.Item eventKey="0">
                 <Accordion.Header>Monetization</Accordion.Header>
                 <Accordion.Body>
-                    <Monetization setTotalRevenue={setTotalRevenue} usersAfterCompoundingGrowth={usersAfterCompoundingGrowth} />
+                    <Monetization
+                        projectId={props.project.id}
+                        monetization={props.project.monetization}
+                        setTotalRevenue={setTotalRevenue}
+                        usersAfterCompoundingGrowth={usersAfterCompoundingGrowth}
+                    />
                     <Chart data={totalRevenue} />
-                    <Chart data={acquisitionsCost} />
+                    <Chart data={acquisitionsCost.map((cost, index) => cost + costOfReferrals[index])} />
                 </Accordion.Body>
             </Accordion.Item></Accordion>
 

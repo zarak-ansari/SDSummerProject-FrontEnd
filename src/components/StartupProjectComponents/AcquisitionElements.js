@@ -1,24 +1,21 @@
 import React from "react"
 import axios from "axios"
+import { TextField, Button, ListItem, List } from "@mui/material"
+import DeleteIcon from '@mui/icons-material/Delete';
 export default function AcquisitionElements(props) {
 
   const numberOfPeriods = props.numberOfPeriods
 
   const [acquisitionElements, setAcquisitionElements] = React.useState(() => props.acquisitionElements)
 
-  const acquisitionsInputs = acquisitionElements.map(element => <li key={element.id}>
-    <label htmlFor="name">Name of the Element</label>
-    <input type="text" id="name" name="name" placeholder="name" value={element.name} onChange={(event) => handleChangeInAcquisitionElements(element.id, event)} />
-    <label htmlFor="description">Description</label>
-    <input type="text" id="description" name="description" placeholder="description" value={element.description} onChange={(event) => handleChangeInAcquisitionElements(element.id, event)} />
-    <label htmlFor="startingValue">Increase in Users Each Period</label>
-    <input type="number" id="startingValue" name="startingValue" placeholder="Starting Value" value={element.startingValue} onChange={(event) => handleChangeInAcquisitionElements(element.id, event)} />
-    <label htmlFor="incrementEachPeriod">Increase in Acquisitions Per Period</label>
-    <input type="number" id="incrementEachPeriod" name="incrementEachPeriod" placeholder="Increase Each Period" value={element.incrementEachPeriod} onChange={(event) => handleChangeInAcquisitionElements(element.id, event)} />
-    <label htmlFor="costPerAcquisition">Cost Per Acquisition</label>
-    <input type="number" id="costPerAcquisition" name="costPerAcquisition" placeholder="Cost Per Acquisition" value={element.costPerAcquisition} onChange={(event) => handleChangeInAcquisitionElements(element.id, event)} />
-    <button onClick={(event) => deleteElement(event, element.id)}>Delete</button>
-  </li>)
+  const acquisitionsInputs = acquisitionElements.map(element => <ListItem margin="normal" key={element.id}>
+    <TextField label="Name of the Element" type="text" id="name" name="name" placeholder="name" value={element.name} onChange={(event) => handleChangeInAcquisitionElements(element.id, event)} />
+    <TextField label="Description" type="text" id="description" name="description" placeholder="description" value={element.description} onChange={(event) => handleChangeInAcquisitionElements(element.id, event)} />
+    <TextField label="Acquisitions Per Period" type="number" InputProps={{ inputProps: { min: 0 } }} id="startingValue" name="startingValue" placeholder="Starting Value" value={element.startingValue} onChange={(event) => handleChangeInAcquisitionElements(element.id, event)} />
+    <TextField label="Increase in Acquisitions per Period" type="number" InputProps={{ inputProps: { min: 0 } }} id="incrementEachPeriod" name="incrementEachPeriod" placeholder="Increase Each Period" value={element.incrementEachPeriod} onChange={(event) => handleChangeInAcquisitionElements(element.id, event)} />
+    <TextField label="Cost per Acquisition" type="number" InputProps={{ inputProps: { min: 0, step: 0.01 } }} id="costPerAcquisition" name="costPerAcquisition" placeholder="Cost Per Acquisition" value={element.costPerAcquisition} onChange={(event) => handleChangeInAcquisitionElements(element.id, event)} />
+    <DeleteIcon onClick={(event) => deleteElement(event, element.id)} />
+  </ListItem>)
 
   const handleChangeInAcquisitionElements = (id, event) => {
     event.preventDefault()
@@ -42,7 +39,6 @@ export default function AcquisitionElements(props) {
 
   function updateAcquisitionsData() {
     axios.post(`/api/startup_project/${props.projectId}/acquisition_elements`, acquisitionElements)
-    console.log(`/api/startup_project/${props.projectId}/acquisition_elements`)
     const acquisitionsResult = []
     const acquisitionsCostsResult = []
 
@@ -76,7 +72,7 @@ export default function AcquisitionElements(props) {
   return (
     <>
       <form>
-        <ul>{acquisitionsInputs}</ul>
+        <List>{acquisitionsInputs}</List>
       </form>
 
       <div>

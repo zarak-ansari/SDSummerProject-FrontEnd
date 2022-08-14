@@ -3,6 +3,10 @@ import React from "react";
 import NavigationBar from "../components/NavigationBar"
 import NewProjectForm from "../components/NewProjectForm"
 import StartupProject from "../components/StartupProjectComponents/StartupProject";
+import { Stack, Box, List, ListItemButton, CssBaseline, Drawer } from "@mui/material"
+
+
+const drawerWidth = 240;
 
 function Menu() {
 
@@ -21,32 +25,42 @@ function Menu() {
 
     function ProjectList() {
         return (
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Number Of Periods</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <Drawer
+                sx={{
+                    width: drawerWidth,
+                    flexShrink: 0,
+                    '& .MuiDrawer-paper': {
+                        width: drawerWidth,
+                        boxSizing: 'border-box',
+                    },
+                }}
+                variant="permanent"
+                anchor="left"
+            >
+                <List>
                     {
-                        projects.map(project => <tr key={project.id}><td>{project.id}</td><td>{project.name}</td><td>{project.description}</td><td>{project.numberOfPeriods}</td></tr>)
+                        projects.map(project => <ListItemButton key={project.id}> {project.name}</ListItemButton>)
                     }
-                </tbody>
-            </table>
+                </List>
+            </Drawer>
         )
+
     }
 
     return (
-        <div>
+        <>
+            <CssBaseline />
             <NavigationBar />
             <h1>Home Page</h1>
-            <ProjectList />
-            <NewProjectForm updateProjectList={updateProjectList} />
-            {projects.length > 0 && <StartupProject project={projects[0]} />}
-        </div>
+            <Box sx={{ display: 'flex' }}>
+                <ProjectList />
+                <NewProjectForm updateProjectList={updateProjectList} />
+                {/* <p>{JSON.stringify(projects[0])}</p> */}
+                <Stack>
+                    {projects.length > 0 && <StartupProject project={projects[0]} />}
+                </Stack>
+            </Box >
+        </>
     );
 }
 

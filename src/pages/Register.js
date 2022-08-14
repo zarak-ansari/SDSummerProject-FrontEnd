@@ -1,13 +1,16 @@
 import React from "react";
 import axios from "axios";
 import { setAuthToken } from "../helpers/setAuthToken"
+import { Typography, Button, Box, TextField, Link } from "@mui/material"
 
 function Register() {
 
     const [email, setEmail] = React.useState("")
     const [password, setPassword] = React.useState("")
 
-    const handleSubmit = () => {
+    const handleSubmit = (event) => {
+
+        event.preventDefault()
 
         //reqres registered sample user
         const loginPayload = {
@@ -34,18 +37,43 @@ function Register() {
     };
 
     return (
-        <form
-            onSubmit={(event) => {
-                event.preventDefault()
-                handleSubmit();
+        <Box
+            component="form"
+            onSubmit={(event) => handleSubmit(event)}
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center'
             }}
         >
-            <label htmlFor="email">Email</label><br />
-            <input type="email" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} /><br />
-            <label htmlFor="password">Password</label><br />
-            <input type="password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} /><br></br>
-            <input type="submit" value="Submit" />
-        </form>
+            <TextField
+                margin="normal"
+                required
+                label="Email"
+                type="email"
+                id="email"
+                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+            />
+            <TextField
+                margin="normal"
+                required
+                label="Password"
+                type="password"
+                id="password"
+                name="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+            />
+            <Button type="submit" variant="contained">Register</Button>
+            <Link
+                href="/login"
+                variant="body2"
+            >
+                {"Already have an account? Log in here"}
+            </Link>
+        </Box>
     );
 }
 export default Register

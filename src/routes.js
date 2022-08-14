@@ -7,7 +7,7 @@ import { history } from './helpers/history';
 
 //pages
 import Menu from "./pages/Menu"
-import LoginPage from "./pages/Login"
+import Login from "./pages/Login"
 import Register from "./pages/Register"
 
 function Routes() {
@@ -21,7 +21,7 @@ function Routes() {
                 />
                 <Route
                     path="/login"
-                    component={LoginPage}
+                    component={Login}
                 />
                 <Route
                     path="/register"

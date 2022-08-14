@@ -1,8 +1,9 @@
 import React from "react"
+import axios from "axios"
 
 export default function Activation(props) {
 
-    const [activationElements, setActivationElements] = React.useState([])
+    const [activationElements, setActivationElements] = React.useState(() => props.activationElements)
 
     const finalActivationPercentage = props.finalActivationPercentage
     const setFinalActivationPercentage = props.setFinalActivationPercentage
@@ -51,7 +52,7 @@ export default function Activation(props) {
     }
 
     function updateUsersAfterActivation() {
-
+        axios.post(`/api/startup_project/${props.projectId}/activation_elements`, activationElements)
         let activatedUsers = Array(props.acquisitions.length).fill(0)
         props.acquisitions.forEach((acquiredUsers, index) => {
             activatedUsers[index] = acquiredUsers * finalActivationPercentage
