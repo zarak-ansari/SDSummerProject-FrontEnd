@@ -1,5 +1,7 @@
 import React from "react"
 import axios from "axios"
+import { TextField, Button, ButtonGroup, Box, List, ListItem, IconButton, Slider } from "@mui/material"
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function Activation(props) {
 
@@ -11,7 +13,8 @@ export default function Activation(props) {
     const handleChange = (id, event) => {
         event.preventDefault()
         let data = [...activationElements]
-        data[id][event.target.name] = event.target.value
+        const elementIndex = data.findIndex(element => element.id == id)
+        data[elementIndex][event.target.name] = event.target.value
         setActivationElements(data)
     }
 
@@ -33,13 +36,40 @@ export default function Activation(props) {
     }
 
 
-    const activationInputs = activationElements.map(element => <li key={element.id}>
-        <label>Stage of Activation</label>
-        <input type="text" id="name" name="name" placeholder="name" value={element.name} onChange={(event) => handleChange(element.id, event)} />
-        <label>Percentage of Users Activated to this Stage</label>
-        <input type="number" id="percentage" name="percentage" placeholder="Percentage" value={element.percentage} onChange={(event) => handleChange(element.id, event)} />
-        <button onClick={() => deleteElement(element.id)}>Delete</button>
-    </li>)
+    const activationInputs = activationElements.map(element => <ListItem key={element.id}>
+
+        <TextField
+            label="Stage of Activation"
+            type="text"
+            id="name"
+            name="name"
+            placeholder="name"
+            value={element.name}
+            onChange={(event) => handleChange(element.id, event)}
+        />
+        {/* <TextField
+            label="Percentage of Users Activated to this Stage"
+            type="number"
+            id="percentage"
+            name="percentage"
+            placeholder="Percentage"
+            value={element.percentage}
+            onChange={(event) => handleChange(element.id, event)}
+        /> */}
+        <Slider
+            type="number"
+            id="percentageSlider"
+            name="percentage"
+            placeholder="Percentage"
+            valueLabelDisplay="auto"
+            min={0.00}
+            max={1.00}
+            step={0.01}
+            value={element.percentage}
+            onChange={(event) => handleChange(element.id, event)}
+        />
+        <IconButton onClick={() => deleteElement(element.id)}><DeleteIcon /></IconButton>
+    </ListItem>)
 
 
     React.useEffect(updateActivationPercentage, [activationElements])
@@ -62,14 +92,14 @@ export default function Activation(props) {
 
     return (
         <>
-            <form>
-                <ul>{activationInputs}</ul>
-            </form>
+            <Box>
+                <List>{activationInputs}</List>
+            </Box>
 
-            <div>
-                <button onClick={addActivationElement}>Add Activation Stage</button>
-                <button onClick={updateUsersAfterActivation}>Update</button>
-            </div>
+            <ButtonGroup>
+                <Button variant="contained" onClick={addActivationElement}>Add Activation Stage</Button>
+                <Button variant="contained" onClick={updateUsersAfterActivation}>Update</Button>
+            </ButtonGroup>
         </>
 
     )

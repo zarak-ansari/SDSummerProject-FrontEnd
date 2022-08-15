@@ -1,5 +1,6 @@
 import React from "react"
 import axios from "axios"
+import { List, ListItem, Slider, TextField } from "@mui/material"
 
 function Retention(props) {
     const numberOfPeriods = props.numberOfPeriods
@@ -10,13 +11,32 @@ function Retention(props) {
 
     for (var i = 0; i < maxRetentionPeriod; i++) {
         decayCurveInputs.push(
-            <li key={i}><input name="decayPercentage" value={retentionCurve[i]} id={i} onChange={(event) => handleChangeInDecayCurve(event)} /></li>
+            <ListItem key={i}>
+                <Slider
+                    id={i}
+                    name={i.toString()}
+                    valueLabelDisplay="auto"
+                    defaultValue={retentionCurve[i - 1] ? retentionCurve[i - 1] : 0.00}
+                    min={0.00}
+                    max={1.00}
+                    step={0.01}
+                    value={retentionCurve[i]}
+                    onChange={(event) => handleChangeInDecayCurve(event)}
+                />
+            </ListItem>
         )
     }
 
     function handleChangeInDecayCurve(event) {
         let result = [...retentionCurve]
-        result[event.target.id] = event.target.value
+        const currentIndex = parseInt(event.target.name)
+        const lastValue = parseInt(event.target.name) - 1
+        if (!result[lastValue] || result[lastValue] <= event.target.value) {
+            result[currentIndex] = event.target.value
+            for (var i = currentIndex + 1; i < retentionCurve.length; i++) {
+                result[i] = Math.max(retentionCurve[i], retentionCurve[currentIndex])
+            }
+        }
         setRetentionCurve(result)
     }
 
@@ -35,8 +55,9 @@ function Retention(props) {
 
     return (
         <>
-            <input type="number" name="maxRetentionPeriod" value={maxRetentionPeriod} onChange={(event) => setMaxRetentionPeriod(event.target.value)} />
-            <ul>{decayCurveInputs}</ul>
+            <p>{JSON.stringify(retentionCurve)}</p>
+            <TextField type="number" name="maxRetentionPeriod" value={maxRetentionPeriod} onChange={(event) => setMaxRetentionPeriod(event.target.value)} />
+            <List>{decayCurveInputs}</List>
             <button onClick={updateRetainedUsers}>Calculate Users After Retention</button>
         </>
 

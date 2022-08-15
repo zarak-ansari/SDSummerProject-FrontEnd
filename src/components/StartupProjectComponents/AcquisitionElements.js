@@ -1,6 +1,6 @@
 import React from "react"
 import axios from "axios"
-import { TextField, Button, ListItem, List } from "@mui/material"
+import { Box, TextField, ButtonGroup, Button, ListItem, List, IconButton } from "@mui/material"
 import DeleteIcon from '@mui/icons-material/Delete';
 export default function AcquisitionElements(props) {
 
@@ -14,13 +14,14 @@ export default function AcquisitionElements(props) {
     <TextField label="Acquisitions Per Period" type="number" InputProps={{ inputProps: { min: 0 } }} id="startingValue" name="startingValue" placeholder="Starting Value" value={element.startingValue} onChange={(event) => handleChangeInAcquisitionElements(element.id, event)} />
     <TextField label="Increase in Acquisitions per Period" type="number" InputProps={{ inputProps: { min: 0 } }} id="incrementEachPeriod" name="incrementEachPeriod" placeholder="Increase Each Period" value={element.incrementEachPeriod} onChange={(event) => handleChangeInAcquisitionElements(element.id, event)} />
     <TextField label="Cost per Acquisition" type="number" InputProps={{ inputProps: { min: 0, step: 0.01 } }} id="costPerAcquisition" name="costPerAcquisition" placeholder="Cost Per Acquisition" value={element.costPerAcquisition} onChange={(event) => handleChangeInAcquisitionElements(element.id, event)} />
-    <DeleteIcon onClick={(event) => deleteElement(event, element.id)} />
+    <IconButton onClick={(event) => deleteElement(event, element.id)} ><DeleteIcon /></IconButton>
   </ListItem>)
 
   const handleChangeInAcquisitionElements = (id, event) => {
     event.preventDefault()
     let data = [...acquisitionElements]
-    data[id][event.target.name] = event.target.value
+    const targetElementIndex = data.findIndex(element => element.id = id)
+    data[targetElementIndex][event.target.name] = event.target.value
     setAcquisitionElements(data)
   }
 
@@ -71,14 +72,14 @@ export default function AcquisitionElements(props) {
 
   return (
     <>
-      <form>
+      <Box>
         <List>{acquisitionsInputs}</List>
-      </form>
+      </Box>
 
-      <div>
-        <button onClick={addAcquisitionElement}>Add Linear Acquisition Element</button>
-        <button onClick={updateAcquisitionsData}>Update Chart</button>
-      </div>
+      <ButtonGroup>
+        <Button variant="contained" onClick={addAcquisitionElement}>Add Linear Acquisition Element</Button>
+        <Button variant="contained" onClick={updateAcquisitionsData}>Update Chart</Button>
+      </ButtonGroup>
     </>
 
   );
