@@ -6,6 +6,7 @@ import Chart from "./Chart"
 import Retention from "./Retention"
 import Referrals from "./Referrals"
 import Monetization from "./Monetization";
+import { Typography } from "@mui/material";
 
 export default function StartupProject(props) {
     //const numberOfPeriods = props.numberOfPeriods
@@ -21,6 +22,8 @@ export default function StartupProject(props) {
 
     return (
         <>
+            <Typography variant="h3">{props.project.name}</Typography>
+            <Typography variant="body1">{props.project.description}</Typography>
             <Accordion><Accordion.Item eventKey="0">
                 <Accordion.Header>Acquisition</Accordion.Header>
                 <Accordion.Body>
@@ -31,7 +34,7 @@ export default function StartupProject(props) {
                         setAcquisitionsData={setAcquisitions}
                         setAcquisitionsCost={setAcquisitionsCost}
                     />
-                    <Chart data={acquisitions} />
+                    <Chart heading="Acquisitions" data={acquisitions} />
                     <Chart data={acquisitionsCost} />
                 </Accordion.Body>
             </Accordion.Item></Accordion>

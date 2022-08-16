@@ -1,6 +1,8 @@
 import { setAuthToken } from "../helpers/setAuthToken";
 import axios from "axios";
 import React from "react";
+import { AppBar, Button, Toolbar, Typography, Box } from "@mui/material"
+
 
 function NavigationBar() {
 
@@ -18,12 +20,14 @@ function NavigationBar() {
         })
         .catch(err => console.log(err));
     return (
-        <>
-            <p>
-                Logged in User: {user}
-            </p>
-            <button onClick={logout}>Log Out</button>
-        </>
+        <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+            <Toolbar sx={{ justifyContent: "flex-end" }}>
+                <Typography variant="h6" mr={10}>
+                    Logged in User: {user}
+                </Typography>
+                <Button variant="contained" color="secondary" onClick={logout}>Log Out</Button>
+            </Toolbar>
+        </AppBar>
     )
 
 }

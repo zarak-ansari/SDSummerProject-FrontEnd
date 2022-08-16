@@ -20,7 +20,7 @@ export default function AcquisitionElements(props) {
   const handleChangeInAcquisitionElements = (id, event) => {
     event.preventDefault()
     let data = [...acquisitionElements]
-    const targetElementIndex = data.findIndex(element => element.id = id)
+    const targetElementIndex = data.findIndex(element => element.id === id)
     data[targetElementIndex][event.target.name] = event.target.value
     setAcquisitionElements(data)
   }

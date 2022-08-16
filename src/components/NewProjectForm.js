@@ -44,7 +44,7 @@ function NewProjectForm(props) {
         >
             <Stack spacing={1.5}>
                 <TextField label="Name of the Project" type="text" id="name" name="name" value={formData.name} onChange={handleChange} />
-                <TextField label="Description" type="text" id="description" name="description" value={formData.description} onChange={handleChange} />
+                <TextareaAutosize placeholder="Description" minRows={5} type="text" id="description" name="description" value={formData.description} onChange={handleChange} />
                 <TextField label="Number of Periods" type="number" id="numberOfPeriods" name="numberOfPeriods" value={formData.numberOfPeriods} onChange={handleChange} />
                 <Button variant="contained" onClick={handleSubmit}>Submit</Button>
             </Stack>

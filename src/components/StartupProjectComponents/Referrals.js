@@ -1,5 +1,6 @@
 import React from "react"
 import axios from "axios"
+import { TextField, Button, Divider, Slider, Stack, Typography } from "@mui/material"
 
 function Referrals(props) {
 
@@ -22,42 +23,6 @@ function Referrals(props) {
     }
 
 
-    function ReferralForm() {
-        return (
-            <>
-                <label htmlFor="percentageOfReferringUsers">Percentage of Referring Users</label>
-                <input
-                    name="percentageOfReferringUsers"
-                    id="percentageOfReferringUsers"
-                    type="number"
-                    placeholder="Percentage of Referring Users"
-                    value={referrals.percentageOfReferringUsers}
-                    onChange={(event) => handleChange(event)}
-                />
-                <label htmlFor="referralsPerUser">Referrals Per User</label>
-                <input
-                    name="referralsPerUser"
-                    id="referralsPerUser"
-                    type="number"
-                    placeholder="Referrals per User"
-                    value={referrals.referralsPerUser}
-                    onChange={(event) => handleChange(event)}
-                />
-                <label htmlFor="costPerReferral">Referrals Per User</label>
-                <input
-                    name="costPerReferral"
-                    id="costPerReferral"
-                    type="number"
-                    placeholder="Cost Per Referral"
-                    value={referrals.costPerReferral}
-                    onChange={(event) => handleChange(event)}
-                />
-
-                <button onClick={updateUsersAfterReferralsAndCostOfReferrals}>Update</button>
-            </>
-        )
-    }
-
     function updateUsersAfterReferralsAndCostOfReferrals() {
 
         axios.post(`/api/startup_project/${props.projectId}/referrals`, referrals)
@@ -77,7 +42,46 @@ function Referrals(props) {
     React.useEffect(updateUsersAfterReferralsAndCostOfReferrals, [props.usersAfterRetention, props.finalActivationPercentage])
 
     return (
-        <ReferralForm />
+        <>
+            <Stack direction="row" spacing={5} mb={2}>
+                <Typography variant="body1">Percentage of Referring Users:</Typography>
+                <Slider
+                    name="percentageOfReferringUsers"
+                    id="percentageOfReferringUsers"
+                    min={0.0}
+                    max={1.0}
+                    step={0.01}
+                    valueLabelDisplay="auto"
+                    value={referrals.percentageOfReferringUsers}
+                    onChange={(event) => handleChange(event)}
+                    sx={{ width: 200 }}
+                />
+                <TextField
+                    required
+                    label="Referrals Per User"
+                    name="referralsPerUser"
+                    id="referralsPerUser"
+                    type="number"
+                    placeholder="Referrals per User"
+                    InputProps={{ inputProps: { min: 0 } }}
+                    value={referrals.referralsPerUser}
+                    onChange={(event) => handleChange(event)}
+                />
+                <TextField
+                    label="Cost Per Referral"
+                    name="costPerReferral"
+                    id="costPerReferral"
+                    type="number"
+                    InputProps={{ inputProps: { min: 0 } }}
+                    placeholder="Cost Per Referral"
+                    value={referrals.costPerReferral}
+                    onChange={(event) => handleChange(event)}
+                />
+
+            </Stack>
+            <Divider />
+            <Button variant="contained" onClick={updateUsersAfterReferralsAndCostOfReferrals}>Update</Button>
+        </>
     )
 }
 

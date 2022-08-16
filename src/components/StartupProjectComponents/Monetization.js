@@ -1,5 +1,6 @@
 import React from "react"
 import axios from "axios"
+import { TextField, Button, Divider, Slider, Typography, Stack } from "@mui/material"
 function Monetization(props) {
     // average revenue per user per period * percentage of paid users
     const [revenuePerUserPerPeriod, setRevenuePerUserPerPeriod] = React.useState(props.monetization ? props.monetization.revenuePerUserPerPeriod : 0)
@@ -17,25 +18,34 @@ function Monetization(props) {
     React.useEffect(calculateRevenue, [props.usersAfterCompoundingGrowth])
     return (
         <>
-            <label htmlFor="revenuePerUserPerPeriod">Revenue Per Paying User Per Period</label>
-            <input
-                type="number"
-                id="revenuePerUserPerPeriod"
-                name="revenuePerUserPerPeriod"
-                value={revenuePerUserPerPeriod}
-                placeholder="Revenue Per User Per Period"
-                onChange={(event) => setRevenuePerUserPerPeriod(event.target.value)}
-            />
-            <label htmlFor="percentageOfPaidUsers">Percentage of Paid Users</label>
-            <input
-                type="number"
-                id="percentageOfPaidUsers"
-                name="percentageOfPaidUsers"
-                value={percentageOfPaidUsers}
-                placeholder="Percentage of Paid Users"
-                onChange={(event) => setPercentageOfPaidUsers(event.target.value)}
-            />
-            <button onClick={calculateRevenue}>Update Data</button>
+            <Stack direction="row" spacing={5}>
+                <Typography variant="body1">Percentage of Paid Users</Typography>
+                <Slider
+                    type="number"
+                    id="percentageOfPaidUsers"
+                    name="percentageOfPaidUsers"
+                    min={0}
+                    max={1}
+                    step={0.01}
+                    valueLabelDisplay="auto"
+                    value={percentageOfPaidUsers}
+                    placeholder="Percentage of Paid Users"
+                    onChange={(event) => setPercentageOfPaidUsers(event.target.value)}
+                    sx={{ width: 200 }}
+                />
+                <TextField
+                    label="Revenue Per Paying User Per Period"
+                    type="number"
+                    id="revenuePerUserPerPeriod"
+                    name="revenuePerUserPerPeriod"
+                    value={revenuePerUserPerPeriod}
+                    placeholder="Revenue Per User Per Period"
+                    onChange={(event) => setRevenuePerUserPerPeriod(event.target.value)}
+                />
+                <Divider />
+                <Button variant="contained" onClick={calculateRevenue}>Update Data</Button>
+            </Stack>
+
         </>
     )
 

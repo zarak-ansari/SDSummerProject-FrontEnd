@@ -13,7 +13,7 @@ export default function Activation(props) {
     const handleChange = (id, event) => {
         event.preventDefault()
         let data = [...activationElements]
-        const elementIndex = data.findIndex(element => element.id == id)
+        const elementIndex = data.findIndex(element => element.id === id)
         data[elementIndex][event.target.name] = event.target.value
         setActivationElements(data)
     }

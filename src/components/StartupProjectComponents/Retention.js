@@ -1,31 +1,13 @@
 import React from "react"
 import axios from "axios"
-import { List, ListItem, Slider, TextField } from "@mui/material"
+import { List, ListItem, Slider, TextField, Button, Typography, IconButton, Stack } from "@mui/material"
+import RemoveIcon from '@mui/icons-material/Remove'
+import AddIcon from '@mui/icons-material/Add'
 
 function Retention(props) {
     const numberOfPeriods = props.numberOfPeriods
-    const [maxRetentionPeriod, setMaxRetentionPeriod] = React.useState(() => (props.retentionCurve.length > 0 ? props.retentionCurve.length : 10))
-    const [retentionCurve, setRetentionCurve] = React.useState(() => (props.retentionCurve.length > 0 ? props.retentionCurve : Array(maxRetentionPeriod).fill(0)))
+    const [retentionCurve, setRetentionCurve] = React.useState(() => (props.retentionCurve.length > 0 ? props.retentionCurve : Array(10).fill(0)))
 
-    const decayCurveInputs = []
-
-    for (var i = 0; i < maxRetentionPeriod; i++) {
-        decayCurveInputs.push(
-            <ListItem key={i}>
-                <Slider
-                    id={i}
-                    name={i.toString()}
-                    valueLabelDisplay="auto"
-                    defaultValue={retentionCurve[i - 1] ? retentionCurve[i - 1] : 0.00}
-                    min={0.00}
-                    max={1.00}
-                    step={0.01}
-                    value={retentionCurve[i]}
-                    onChange={(event) => handleChangeInDecayCurve(event)}
-                />
-            </ListItem>
-        )
-    }
 
     function handleChangeInDecayCurve(event) {
         let result = [...retentionCurve]
@@ -52,13 +34,37 @@ function Retention(props) {
         props.setRetainedUsers(result)
     }
     React.useEffect(updateRetainedUsers, [props.activatedUsers])
-
+    function incrementRetentionPeriod() {
+        setRetentionCurve(prev => prev.push(1))
+    }
     return (
         <>
-            <p>{JSON.stringify(retentionCurve)}</p>
-            <TextField type="number" name="maxRetentionPeriod" value={maxRetentionPeriod} onChange={(event) => setMaxRetentionPeriod(event.target.value)} />
-            <List>{decayCurveInputs}</List>
-            <button onClick={updateRetainedUsers}>Calculate Users After Retention</button>
+            <Stack direction="row">
+                <IconButton color="primary" size="small" onClick={() => setRetentionCurve(prev => prev.filter((element, index) => index !== prev.length - 1))}><RemoveIcon /></IconButton>
+                <Typography variant="h5">Retention Period: {retentionCurve.length}</Typography>
+                <IconButton color="primary" size="small" onClick={() => setRetentionCurve(prev => [...prev, 1.0])} ><AddIcon /></IconButton>
+            </Stack>
+            <List>
+                {retentionCurve.map((element, index) => {
+                    return <ListItem key={index} sx={{ margin: 0, height: 30 }}>
+                        <Typography margin={2}>{index.toString()}</Typography>
+                        <Slider
+                            id={index}
+                            name={index}
+                            valueLabelDisplay="auto"
+                            defaultValue={retentionCurve[index - 1] ? retentionCurve[index - 1] : 0.00}
+                            min={0.00}
+                            max={1.00}
+                            step={0.01}
+                            value={retentionCurve[index]}
+                            onChange={(event) => handleChangeInDecayCurve(event)}
+
+                        />
+                    </ListItem>
+
+                })}
+            </List>
+            <Button variant="contained" onClick={updateRetainedUsers}>Calculate Users After Retention</Button>
         </>
 
     )
