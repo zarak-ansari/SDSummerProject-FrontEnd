@@ -4,10 +4,13 @@ import { TextField, Button, Divider, Slider, Stack, Typography } from "@mui/mate
 
 function Referrals(props) {
 
-    const usersBeforeReferrals = props.usersAfterRetention
+    const acquisitionsBeforeReferrals = props.acquisitionsBeforeReferrals
     const activationPercentage = props.finalActivationPercentage
-    const setUsersAfterCompoundingGrowth = props.setUsersAfterCompoundingGrowth
+    const userAcquisitionAfterReferrals = props.userAcquisitionAfterReferrals
+    const setUserAcquisitionAfterReferrals = props.setUserAcquisitionAfterReferrals
+    const setUsersRetainedAfterReferrals = props.setUsersRetainedAfterReferrals
     const setCostOfReferrals = props.setCostOfReferrals
+    const retentionCurve = props.retentionCurve
 
     const [referrals, setReferrals] = React.useState(() => props.referrals ? props.referrals : createDefaultReferrals())
     function createDefaultReferrals() {
@@ -23,23 +26,54 @@ function Referrals(props) {
     }
 
 
-    function updateUsersAfterReferralsAndCostOfReferrals() {
-
-        axios.post(`/api/startup_project/${props.projectId}/referrals`, referrals)
-        const userAcquisitionPerCurrentUsers = referrals.percentageOfReferringUsers * referrals.referralsPerUser * activationPercentage
-        const resultUsers = Array(usersBeforeReferrals.length).fill(0)
-        const resultCost = Array(usersBeforeReferrals.length).fill(0)
-
-        resultUsers[0] = usersBeforeReferrals[0]
-        for (var i = 0; i < usersBeforeReferrals.length - 1; i++) {
-            resultUsers[i + 1] = usersBeforeReferrals[i + 1] + (resultUsers[i] * userAcquisitionPerCurrentUsers)
-            resultCost[i + 1] = usersBeforeReferrals[i] * referrals.percentageOfReferringUsers * referrals.costPerReferral
+    function updateRetainedUsers() {
+        let result = Array(acquisitionsBeforeReferrals.length).fill(0)
+        let activatedUsers = userAcquisitionAfterReferrals.map(acquisition => acquisition * activationPercentage)
+        for (var i = 0; i < activatedUsers.length; i++) {
+            for (var j = 0; j < retentionCurve.length; j++) {
+                if ((i + j) < activatedUsers.length)
+                    result[i + j] += activatedUsers[i] * (1 - retentionCurve[j])
+            }
         }
-        setCostOfReferrals(resultCost)
-        setUsersAfterCompoundingGrowth(resultUsers)
+        setUsersRetainedAfterReferrals(result)
     }
 
-    React.useEffect(updateUsersAfterReferralsAndCostOfReferrals, [props.usersAfterRetention, props.finalActivationPercentage])
+
+    function updateCostAndAcquisitions() {
+
+        const userAcquisitionPerCurrentUsers = referrals.percentageOfReferringUsers * referrals.referralsPerUser
+        const resultUserAcquisitions = Array(acquisitionsBeforeReferrals.length).fill(0)
+        const resultUsersRetained = Array(acquisitionsBeforeReferrals.length).fill(0)
+        const resultCost = Array(acquisitionsBeforeReferrals.length).fill(0)
+
+        resultUserAcquisitions[0] = acquisitionsBeforeReferrals[0]
+
+        for (var i = 0; i < acquisitionsBeforeReferrals.length - 1; i++) {
+            for (var j = 0; j < retentionCurve.length; j++) {
+                if ((i + j) < acquisitionsBeforeReferrals.length)
+                    resultUsersRetained[i + j] += resultUserAcquisitions[i] * activationPercentage * (1 - retentionCurve[j])
+            }
+            resultUserAcquisitions[i + 1] = acquisitionsBeforeReferrals[i + 1] + (resultUsersRetained[i] * userAcquisitionPerCurrentUsers)
+            resultCost[i + 1] = (resultUserAcquisitions[i + 1] - acquisitionsBeforeReferrals[i + 1]) * referrals.costPerReferral
+        }
+        var i = acquisitionsBeforeReferrals.length - 1
+        for (var j = 0; j < retentionCurve.length; j++) {
+            if ((i + j) < acquisitionsBeforeReferrals.length)
+                resultUsersRetained[i + j] += resultUserAcquisitions[i] * activationPercentage * (1 - retentionCurve[j])
+        }
+
+
+        setCostOfReferrals(resultCost)
+        setUserAcquisitionAfterReferrals(resultUserAcquisitions)
+        setUsersRetainedAfterReferrals(resultUsersRetained)
+    }
+
+    function updateData() {
+        axios.post(`/api/startup_project/${props.projectId}/referrals`, referrals)
+        updateCostAndAcquisitions()
+    }
+
+    React.useEffect(updateData, [props.usersAfterRetention, props.finalActivationPercentage])
 
     return (
         <>
@@ -80,7 +114,7 @@ function Referrals(props) {
 
             </Stack>
             <Divider />
-            <Button variant="contained" onClick={updateUsersAfterReferralsAndCostOfReferrals}>Update</Button>
+            <Button variant="contained" onClick={updateData}>Update</Button>
         </>
     )
 }

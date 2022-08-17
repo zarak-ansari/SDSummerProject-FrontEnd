@@ -57,7 +57,21 @@ function Menu() {
                     <List>
                         <Typography variant="h4">Projects<IconButton onClick={handleOpen}><AddBoxIcon fontSize="large" /></IconButton></Typography>
                         {
-                            projects.map(project => <ListItemButton key={project.id} onClick={() => updateSelectedProject(project.id)}>{project.name} <IconButton onClick={(event) => deleteProject(event, project.id)}><DeleteIcon /></IconButton></ListItemButton>)
+                            projects.map(project => {
+                                return <ListItemButton
+                                    key={project.id}
+                                    onClick={() => updateSelectedProject(project.id)}
+                                >
+                                    {project.name}
+                                    <IconButton
+                                        onClick={(event) => deleteProject(event, project.id)}
+                                        sx={{ position: "absolute", right: "0px" }}
+                                    >
+                                        <DeleteIcon />
+                                    </IconButton>
+                                </ListItemButton>
+                            })
+
                         }
                         <Modal
                             open={open}
