@@ -61,8 +61,6 @@ function Referrals(props) {
             if ((i + j) < acquisitionsBeforeReferrals.length)
                 resultUsersRetained[i + j] += resultUserAcquisitions[i] * activationPercentage * (1 - retentionCurve[j])
         }
-
-
         setCostOfReferrals(resultCost)
         setUserAcquisitionAfterReferrals(resultUserAcquisitions)
         setUsersRetainedAfterReferrals(resultUsersRetained)
