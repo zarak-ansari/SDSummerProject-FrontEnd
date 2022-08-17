@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { setAuthToken } from "../helpers/setAuthToken"
-import { Box, Button, Typography, TextField, Link } from "@mui/material"
+import { Box, Button, TextField, Link } from "@mui/material"
 function Login() {
 
     const [email, setEmail] = React.useState("")

@@ -43,11 +43,7 @@ function Menu() {
             <Drawer
                 sx={{
                     width: drawerWidth,
-                    flexShrink: 0,
-                    ['& .MuiDrawer-paper']: {
-                        width: drawerWidth,
-                        boxSizing: 'border-box',
-                    },
+                    flexShrink: 0
                 }}
                 variant="permanent"
                 anchor="left"

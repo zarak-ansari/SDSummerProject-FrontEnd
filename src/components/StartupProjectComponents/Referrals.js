@@ -6,7 +6,6 @@ function Referrals(props) {
 
     const acquisitionsBeforeReferrals = props.acquisitionsBeforeReferrals
     const activationPercentage = props.finalActivationPercentage
-    const userAcquisitionAfterReferrals = props.userAcquisitionAfterReferrals
     const setUserAcquisitionAfterReferrals = props.setUserAcquisitionAfterReferrals
     const setUsersRetainedAfterReferrals = props.setUsersRetainedAfterReferrals
     const setCostOfReferrals = props.setCostOfReferrals
@@ -26,18 +25,6 @@ function Referrals(props) {
     }
 
 
-    function updateRetainedUsers() {
-        let result = Array(acquisitionsBeforeReferrals.length).fill(0)
-        let activatedUsers = userAcquisitionAfterReferrals.map(acquisition => acquisition * activationPercentage)
-        for (var i = 0; i < activatedUsers.length; i++) {
-            for (var j = 0; j < retentionCurve.length; j++) {
-                if ((i + j) < activatedUsers.length)
-                    result[i + j] += activatedUsers[i] * (1 - retentionCurve[j])
-            }
-        }
-        setUsersRetainedAfterReferrals(result)
-    }
-
 
     function updateCostAndAcquisitions() {
 
@@ -56,10 +43,10 @@ function Referrals(props) {
             resultUserAcquisitions[i + 1] = acquisitionsBeforeReferrals[i + 1] + (resultUsersRetained[i] * userAcquisitionPerCurrentUsers)
             resultCost[i + 1] = (resultUserAcquisitions[i + 1] - acquisitionsBeforeReferrals[i + 1]) * referrals.costPerReferral
         }
-        var i = acquisitionsBeforeReferrals.length - 1
-        for (var j = 0; j < retentionCurve.length; j++) {
-            if ((i + j) < acquisitionsBeforeReferrals.length)
-                resultUsersRetained[i + j] += resultUserAcquisitions[i] * activationPercentage * (1 - retentionCurve[j])
+        var i2 = acquisitionsBeforeReferrals.length - 1
+        for (var j2 = 0; j2 < retentionCurve.length; j2++) {
+            if ((i2 + j2) < acquisitionsBeforeReferrals.length)
+                resultUsersRetained[i2 + j2] += resultUserAcquisitions[i2] * activationPercentage * (1 - retentionCurve[j2])
         }
         setCostOfReferrals(resultCost)
         setUserAcquisitionAfterReferrals(resultUserAcquisitions)

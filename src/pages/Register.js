@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { setAuthToken } from "../helpers/setAuthToken"
-import { Typography, Button, Box, TextField, Link } from "@mui/material"
+import { Button, Box, TextField, Link } from "@mui/material"
 
 function Register() {
 

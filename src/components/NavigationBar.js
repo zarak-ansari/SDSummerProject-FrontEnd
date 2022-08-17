@@ -1,7 +1,7 @@
 import { setAuthToken } from "../helpers/setAuthToken";
 import axios from "axios";
 import React from "react";
-import { AppBar, Button, Toolbar, Typography, Box } from "@mui/material"
+import { AppBar, Button, Toolbar, Typography } from "@mui/material"
 
 
 function NavigationBar() {
