@@ -7,8 +7,7 @@ import { history } from './helpers/history';
 
 //pages
 import Menu from "./pages/Menu"
-import Login from "./pages/Login"
-import Register from "./pages/Register"
+import LoginAndRegistration from "./pages/LoginAndRegistration";
 
 function Routes() {
     return (
@@ -21,13 +20,8 @@ function Routes() {
                 />
                 <Route
                     path="/login"
-                    component={Login}
+                    component={LoginAndRegistration}
                 />
-                <Route
-                    path="/register"
-                    component={Register}
-                />
-
                 <Redirect to="/" />
             </Switch>
         </Router>

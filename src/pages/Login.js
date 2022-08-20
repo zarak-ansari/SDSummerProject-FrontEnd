@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { setAuthToken } from "../helpers/setAuthToken"
-import { Box, Button, TextField, Link } from "@mui/material"
+import { Box, Button, TextField, Typography } from "@mui/material"
 function Login() {
 
     const [email, setEmail] = React.useState("")
@@ -43,6 +43,7 @@ function Login() {
                 alignItems: 'center'
             }}
         >
+            <Typography variant="h4">Log In</Typography>
             <TextField
                 margin="normal"
                 required
@@ -64,12 +65,6 @@ function Login() {
                 onChange={(e) => setPassword(e.target.value)}
             />
             <Button type="submit" variant="contained">Log In</Button>
-            <Link
-                href="/register"
-                variant="body2"
-            >
-                {"Don't have an account? Register here"}
-            </Link>
         </Box>
 
     );

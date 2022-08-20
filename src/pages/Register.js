@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { setAuthToken } from "../helpers/setAuthToken"
-import { Button, Box, TextField, Link } from "@mui/material"
+import { Button, Box, TextField, Typography } from "@mui/material"
 
 function Register() {
 
@@ -46,10 +46,12 @@ function Register() {
                 alignItems: 'center'
             }}
         >
+            <Typography variant="h4">Register</Typography>
+
             <TextField
                 margin="normal"
                 required
-                label="Email"
+                label="Email Address"
                 type="email"
                 id="email"
                 name="email"
@@ -67,12 +69,7 @@ function Register() {
                 onChange={(e) => setPassword(e.target.value)}
             />
             <Button type="submit" variant="contained">Register</Button>
-            <Link
-                href="/login"
-                variant="body2"
-            >
-                {"Already have an account? Log in here"}
-            </Link>
+
         </Box>
     );
 }

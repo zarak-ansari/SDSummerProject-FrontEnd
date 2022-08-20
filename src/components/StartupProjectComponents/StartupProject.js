@@ -47,7 +47,7 @@ export default function StartupProject(props) {
                         setAcquisitionsData={setAcquisitions}
                         setAcquisitionsCost={setAcquisitionsCost}
                     />
-                    <Chart heading="Acquisitions" data={acquisitions} />
+                    <Chart heading="Acquisitions Per Period" data={acquisitions} />
                     <Chart heading="Acquisitions Cost" data={acquisitionsCost} />
                     <Chart heading="Cumulative Acquisitions" data={calculateCumulativeData(acquisitions)} />
                     {/* <p>{JSON.stringify(calculateCumulativeData(acquisitions))}</p> */}

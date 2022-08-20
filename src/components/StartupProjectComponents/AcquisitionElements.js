@@ -9,11 +9,67 @@ export default function AcquisitionElements(props) {
   const [acquisitionElements, setAcquisitionElements] = React.useState(() => props.acquisitionElements)
 
   const acquisitionsInputs = acquisitionElements.map(element => <ListItem margin="normal" key={element.id}>
-    <TextField label="Name of the Element" type="text" id="name" name="name" placeholder="name" value={element.name} onChange={(event) => handleChangeInAcquisitionElements(element.id, event)} />
-    <TextField label="Description" type="text" id="description" name="description" placeholder="description" value={element.description} onChange={(event) => handleChangeInAcquisitionElements(element.id, event)} />
-    <TextField label="Acquisitions Per Period" type="number" InputProps={{ inputProps: { min: 0 } }} id="startingValue" name="startingValue" placeholder="Starting Value" value={element.startingValue} onChange={(event) => handleChangeInAcquisitionElements(element.id, event)} />
-    <TextField label="Increase in Acquisitions per Period" type="number" InputProps={{ inputProps: { min: 0 } }} id="incrementEachPeriod" name="incrementEachPeriod" placeholder="Increase Each Period" value={element.incrementEachPeriod} onChange={(event) => handleChangeInAcquisitionElements(element.id, event)} />
-    <TextField label="Cost per Acquisition" type="number" InputProps={{ inputProps: { min: 0, step: 0.01 } }} id="costPerAcquisition" name="costPerAcquisition" placeholder="Cost Per Acquisition" value={element.costPerAcquisition} onChange={(event) => handleChangeInAcquisitionElements(element.id, event)} />
+    <TextField
+      label="Name of the Element"
+      type="text"
+      name="name"
+      placeholder="name"
+      value={element.name}
+      onChange={(event) => handleChangeInAcquisitionElements(element.id, event)}
+    />
+    <TextField
+      label="Description"
+      type="text"
+      name="description"
+      placeholder="description"
+      value={element.description}
+      onChange={(event) => handleChangeInAcquisitionElements(element.id, event)}
+    />
+    <TextField
+      label="Acquisitions Per Period"
+      name="startingValue"
+      type="number"
+      InputProps={{ inputProps: { min: 0 } }}
+      placeholder="Starting Value"
+      value={element.startingValue}
+      onChange={(event) => handleChangeInAcquisitionElements(element.id, event)}
+    />
+    <TextField
+      label="Increase in Acquisitions per Period"
+      type="number"
+      InputProps={{ inputProps: { min: 0 } }}
+      name="incrementEachPeriod"
+      placeholder="Increase Each Period"
+      value={element.incrementEachPeriod}
+      onChange={(event) => handleChangeInAcquisitionElements(element.id, event)}
+    />
+    <TextField
+      label="Cost per Acquisition"
+      type="number"
+      InputProps={{ inputProps: { min: 0, step: 0.01 } }}
+      name="costPerAcquisition"
+      placeholder="Cost Per Acquisition"
+      value={element.costPerAcquisition}
+      onChange={(event) => handleChangeInAcquisitionElements(element.id, event)}
+    />
+    <TextField
+      label="Starting Period"
+      type="number"
+      InputProps={{ inputProps: { min: 0, step: 1, max: numberOfPeriods } }}
+      name="startingPeriod"
+      placeholder="Starting Period"
+      value={element.startingPeriod}
+      onChange={(event) => handleChangeInAcquisitionElements(element.id, event)}
+    />
+    <TextField
+      label="Ending Period"
+      type="number"
+      InputProps={{ inputProps: { min: 0, step: 1, max: numberOfPeriods } }}
+      name="endingPeriod"
+      placeholder="Ending Period"
+      value={element.endingPeriod}
+      onChange={(event) => handleChangeInAcquisitionElements(element.id, event)}
+    />
     <IconButton onClick={(event) => deleteElement(event, element.id)} ><DeleteIcon /></IconButton>
   </ListItem>)
 
@@ -21,7 +77,8 @@ export default function AcquisitionElements(props) {
     event.preventDefault()
     let data = [...acquisitionElements]
     const targetElementIndex = data.findIndex(element => element.id === id)
-    data[targetElementIndex][event.target.name] = event.target.value
+    const value = (event.target.type === "number" && !event.target.value) ? 0 : event.target.value
+    data[targetElementIndex][event.target.name] = value
     setAcquisitionElements(data)
   }
 
@@ -32,7 +89,9 @@ export default function AcquisitionElements(props) {
       description: "",
       startingValue: 0,
       incrementEachPeriod: 0,
-      costPerAcquisition: 0
+      costPerAcquisition: 0,
+      startingPeriod: 0,
+      endingPeriod: numberOfPeriods
     }
   }
 
@@ -50,9 +109,9 @@ export default function AcquisitionElements(props) {
 
     acquisitionElements.forEach(
       element => {
-        for (var i = 0; i < numberOfPeriods; i++) {
-          acquisitionsResult[i] += parseInt(element.startingValue) + (i * parseInt(element.incrementEachPeriod))
-          acquisitionsCostsResult[i] += acquisitionsResult[i] * element.costPerAcquisition
+        for (var i = element.startingPeriod; i < Math.min(element.endingPeriod, numberOfPeriods); i++) {
+          acquisitionsResult[i] += Math.max(parseInt(element.startingValue) + ((i - element.startingPeriod) * parseInt(element.incrementEachPeriod)), 0)
+          acquisitionsCostsResult[i] += Math.max(acquisitionsResult[i] * element.costPerAcquisition, 0)
         }
       }
     )
