@@ -7,7 +7,7 @@ import { Modal, Stack, Box, List, ListItemButton, CssBaseline, Drawer, Toolbar, 
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const drawerWidth = 240;
+const drawerWidth = 300;
 
 function Menu() {
 
@@ -92,7 +92,7 @@ function Menu() {
             <Box sx={{ display: 'flex' }}>
                 <ProjectList />
 
-                <Stack width='80%' margin={15}>
+                <Stack width='90%' margin={15}>
                     {projects.length > 0 && <StartupProject key={selectedProjectIndex} project={projects[selectedProjectIndex]} />}
                 </Stack>
             </Box >

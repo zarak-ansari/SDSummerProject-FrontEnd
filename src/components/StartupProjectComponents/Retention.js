@@ -3,6 +3,7 @@ import axios from "axios"
 import { List, ListItem, Slider, Button, Typography, IconButton, Stack } from "@mui/material"
 import RemoveIcon from '@mui/icons-material/Remove'
 import AddIcon from '@mui/icons-material/Add'
+import SaveIcon from '@mui/icons-material/Save'
 
 function Retention(props) {
     const numberOfPeriods = props.numberOfPeriods
@@ -62,7 +63,7 @@ function Retention(props) {
 
                 })}
             </List>
-            <Button variant="contained" onClick={updateRetainedUsers}>Calculate Users After Retention</Button>
+            <Button startIcon={<SaveIcon />} variant="contained" onClick={updateRetainedUsers}>Save and Update</Button>
         </>
 
     )

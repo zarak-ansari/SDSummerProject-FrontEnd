@@ -1,6 +1,9 @@
 import React from "react"
 import axios from "axios"
 import { TextField, Button, Divider, Slider, Typography, Stack } from "@mui/material"
+import SaveIcon from '@mui/icons-material/Save'
+
+
 function Monetization(props) {
     // average revenue per user per period * percentage of paid users
     const [revenuePerUserPerPeriod, setRevenuePerUserPerPeriod] = React.useState(props.monetization ? props.monetization.revenuePerUserPerPeriod : 0)
@@ -43,7 +46,7 @@ function Monetization(props) {
                     onChange={(event) => setRevenuePerUserPerPeriod(event.target.value)}
                 />
                 <Divider />
-                <Button variant="contained" onClick={calculateRevenue}>Update Data</Button>
+                <Button startIcon={<SaveIcon />} variant="contained" onClick={calculateRevenue}>Update Data</Button>
             </Stack>
 
         </>

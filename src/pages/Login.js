@@ -50,7 +50,6 @@ function Login() {
                 name="email"
                 label="Email Address"
                 type="email"
-                id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
             />
@@ -60,7 +59,6 @@ function Login() {
                 name="password"
                 label="Password"
                 type="password"
-                id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />

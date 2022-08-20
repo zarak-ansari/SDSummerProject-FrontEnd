@@ -1,7 +1,9 @@
 import React from "react"
 import axios from "axios"
-import { Box, TextField, ButtonGroup, Button, ListItem, List, IconButton } from "@mui/material"
+import { Box, TextField, Button, ListItem, List, IconButton } from "@mui/material"
 import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
+import SaveIcon from '@mui/icons-material/Save';
 export default function AcquisitionElements(props) {
 
   const numberOfPeriods = props.numberOfPeriods
@@ -135,10 +137,8 @@ export default function AcquisitionElements(props) {
         <List>{acquisitionsInputs}</List>
       </Box>
 
-      <ButtonGroup>
-        <Button variant="contained" onClick={addAcquisitionElement}>Add Linear Acquisition Element</Button>
-        <Button variant="contained" onClick={updateAcquisitionsData}>Update Chart</Button>
-      </ButtonGroup>
+      <Button startIcon={<AddIcon />} variant="contained" onClick={addAcquisitionElement} sx={{ margin: 2 }}>Add Linear Acquisition Element</Button>
+      <Button startIcon={<SaveIcon />} variant="contained" onClick={updateAcquisitionsData} sx={{ margin: 2 }}>Save and Update</Button>
     </>
 
   );

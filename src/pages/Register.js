@@ -53,7 +53,6 @@ function Register() {
                 required
                 label="Email Address"
                 type="email"
-                id="email"
                 name="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -63,7 +62,6 @@ function Register() {
                 required
                 label="Password"
                 type="password"
-                id="password"
                 name="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

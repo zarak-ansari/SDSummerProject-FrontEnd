@@ -1,7 +1,9 @@
 import React from "react"
 import axios from "axios"
-import { TextField, Button, ButtonGroup, Box, List, ListItem, IconButton, Slider } from "@mui/material"
-import DeleteIcon from '@mui/icons-material/Delete';
+import { TextField, Button, Box, List, ListItem, IconButton, Slider } from "@mui/material"
+import DeleteIcon from '@mui/icons-material/Delete'
+import AddIcon from '@mui/icons-material/Add'
+import SaveIcon from '@mui/icons-material/Save'
 
 export default function Activation(props) {
 
@@ -22,7 +24,7 @@ export default function Activation(props) {
         return {
             id: activationElements.length,
             name: "",
-            percentage: 0.0
+            percentage: 1.0
         }
     }
 
@@ -41,24 +43,14 @@ export default function Activation(props) {
         <TextField
             label="Stage of Activation"
             type="text"
-            id="name"
             name="name"
             placeholder="name"
             value={element.name}
             onChange={(event) => handleChange(element.id, event)}
         />
-        {/* <TextField
-            label="Percentage of Users Activated to this Stage"
-            type="number"
-            id="percentage"
-            name="percentage"
-            placeholder="Percentage"
-            value={element.percentage}
-            onChange={(event) => handleChange(element.id, event)}
-        /> */}
+
         <Slider
             type="number"
-            id="percentageSlider"
             name="percentage"
             placeholder="Percentage"
             valueLabelDisplay="auto"
@@ -96,10 +88,8 @@ export default function Activation(props) {
                 <List>{activationInputs}</List>
             </Box>
 
-            <ButtonGroup>
-                <Button variant="contained" onClick={addActivationElement}>Add Activation Stage</Button>
-                <Button variant="contained" onClick={updateUsersAfterActivation}>Update</Button>
-            </ButtonGroup>
+            <Button startIcon={<AddIcon />} variant="contained" onClick={addActivationElement} sx={{ margin: 2 }}>Add Activation Stage</Button>
+            <Button startIcon={<SaveIcon />} variant="contained" onClick={updateUsersAfterActivation}>Save and Update</Button>
         </>
 
     )

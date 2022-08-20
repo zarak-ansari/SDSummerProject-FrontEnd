@@ -1,21 +1,20 @@
 import React from "react"
-import Accordion from 'react-bootstrap/Accordion';
 import AcquisitionElements from "./AcquisitionElements"
 import Activation from "./Activation"
 import Chart from "./Chart"
 import Retention from "./Retention"
 import Referrals from "./Referrals"
 import Monetization from "./Monetization";
-import { Typography } from "@mui/material";
+import { Typography, Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export default function StartupProject(props) {
-    //const numberOfPeriods = props.numberOfPeriods
     const numberOfPeriods = props.project.numberOfPeriods
     const [acquisitions, setAcquisitions] = React.useState(Array(numberOfPeriods).fill(0))
     const [acquisitionsCost, setAcquisitionsCost] = React.useState(Array(numberOfPeriods).fill(0))
     const [finalActivationPercentage, setFinalActivationPercentage] = React.useState(1.0)
     const [usersAfterActivation, setUsersAfterActivation] = React.useState(Array(numberOfPeriods).fill(0))
-    const [retentionCurve, setRetentionCurve] = React.useState(props.project.retentionCurve || Array(numberOfPeriods).fill(0))
+    const [retentionCurve, setRetentionCurve] = React.useState(props.project.retentionCurve.length > 0 ? props.project.retentionCurve : Array(numberOfPeriods).fill(0))
     const [totalUsersRetained, setTotalUsersRetained] = React.useState(Array(numberOfPeriods).fill(0))
     const [userAcquisitionAfterReferrals, setUserAcquisitionAfterReferrals] = React.useState(Array(numberOfPeriods).fill(0))
     const [usersRetainedAfterReferrals, setUsersRetainedAfterReferrals] = React.useState(Array(numberOfPeriods).fill(0))
@@ -37,9 +36,11 @@ export default function StartupProject(props) {
         <>
             <Typography variant="h3">{props.project.name}</Typography>
             <Typography variant="body1">{props.project.description}</Typography>
-            <Accordion><Accordion.Item eventKey="0">
-                <Accordion.Header>Acquisition</Accordion.Header>
-                <Accordion.Body>
+            <Accordion>
+                <AccordionSummary aria-controls="panel1a-content" expandIcon={<ExpandMoreIcon />}>
+                    <Typography variant="h5">Acquisition</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
                     <AcquisitionElements
                         numberOfPeriods={numberOfPeriods}
                         projectId={props.project.id}
@@ -51,12 +52,14 @@ export default function StartupProject(props) {
                     <Chart heading="Acquisitions Cost" data={acquisitionsCost} />
                     <Chart heading="Cumulative Acquisitions" data={calculateCumulativeData(acquisitions)} />
                     {/* <p>{JSON.stringify(calculateCumulativeData(acquisitions))}</p> */}
-                </Accordion.Body>
-            </Accordion.Item></Accordion>
+                </AccordionDetails>
+            </Accordion>
 
-            <Accordion><Accordion.Item eventKey="0">
-                <Accordion.Header>Activation</Accordion.Header>
-                <Accordion.Body>
+            <Accordion>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" >
+                    <Typography variant="h5">Activation</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
                     <Activation
                         acquisitions={acquisitions}
                         projectId={props.project.id}
@@ -66,12 +69,14 @@ export default function StartupProject(props) {
                         setFinalActivationPercentage={setFinalActivationPercentage}
                     />
                     <Chart heading="Users Activated" data={usersAfterActivation} />
-                </Accordion.Body>
-            </Accordion.Item></Accordion>
+                </AccordionDetails>
+            </Accordion>
 
-            <Accordion><Accordion.Item eventKey="0">
-                <Accordion.Header>Retention</Accordion.Header>
-                <Accordion.Body>
+            <Accordion>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" >
+                    <Typography variant="h5">Retention</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
                     <Retention
                         projectId={props.project.id}
                         retentionCurve={retentionCurve}
@@ -81,12 +86,14 @@ export default function StartupProject(props) {
                         setRetainedUsers={setTotalUsersRetained}
                     />
                     <Chart heading="Cumulative Users Retained" data={totalUsersRetained} />
-                </Accordion.Body>
-            </Accordion.Item></Accordion>
+                </AccordionDetails>
+            </Accordion>
 
-            <Accordion><Accordion.Item eventKey="0">
-                <Accordion.Header>Referrals</Accordion.Header>
-                <Accordion.Body>
+            <Accordion>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" >
+                    <Typography variant="h5">Referrals</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
                     <Referrals
                         projectId={props.project.id}
                         referrals={props.project.referrals}
@@ -101,12 +108,14 @@ export default function StartupProject(props) {
                     <Chart heading="Users Acquisition After Referrals" data={userAcquisitionAfterReferrals} />
                     <Chart heading="Cumulative Users Retained After Referrals" data={usersRetainedAfterReferrals} />
 
-                </Accordion.Body>
-            </Accordion.Item></Accordion>
+                </AccordionDetails>
+            </Accordion>
 
-            <Accordion><Accordion.Item eventKey="0">
-                <Accordion.Header>Monetization</Accordion.Header>
-                <Accordion.Body>
+            <Accordion>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" >
+                    <Typography variant="h5">Monetization</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
                     <Monetization
                         projectId={props.project.id}
                         monetization={props.project.monetization}
@@ -115,8 +124,8 @@ export default function StartupProject(props) {
                     />
                     <Chart heading="Revenue" data={totalRevenue} />
                     <Chart heading="Customer Acquisition Costs" data={acquisitionsCost.map((cost, index) => cost + costOfReferrals[index])} />
-                </Accordion.Body>
-            </Accordion.Item></Accordion>
+                </AccordionDetails>
+            </Accordion>
 
         </>
     )

@@ -1,6 +1,7 @@
 import React from "react"
 import axios from "axios"
 import { TextField, Button, Divider, Slider, Stack, Typography } from "@mui/material"
+import SaveIcon from '@mui/icons-material/Save'
 
 function Referrals(props) {
 
@@ -99,7 +100,7 @@ function Referrals(props) {
 
             </Stack>
             <Divider />
-            <Button variant="contained" onClick={updateData}>Update</Button>
+            <Button startIcon={<SaveIcon />} variant="contained" onClick={updateData}>Save and Update</Button>
         </>
     )
 }
