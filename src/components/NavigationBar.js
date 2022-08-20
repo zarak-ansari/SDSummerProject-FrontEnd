@@ -9,7 +9,7 @@ function NavigationBar() {
     function logout() {
         setAuthToken()
         localStorage.removeItem("token")
-        window.location.href = "/login"
+        window.location.href = "/"
     }
 
     const [user, setUser] = React.useState("")
