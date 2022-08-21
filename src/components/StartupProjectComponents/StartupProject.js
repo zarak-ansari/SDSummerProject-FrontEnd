@@ -48,8 +48,8 @@ export default function StartupProject(props) {
                         setAcquisitionsData={setAcquisitions}
                         setAcquisitionsCost={setAcquisitionsCost}
                     />
-                    <Chart heading="Acquisitions Per Period" data={acquisitions} />
-                    <Chart heading="Acquisitions Cost" data={acquisitionsCost} />
+                    <Chart heading="Acquisitions per Period" data={acquisitions} />
+                    <Chart heading="Acquisitions Cost per Period" data={acquisitionsCost} />
                     <Chart heading="Cumulative Acquisitions" data={calculateCumulativeData(acquisitions)} />
                     {/* <p>{JSON.stringify(calculateCumulativeData(acquisitions))}</p> */}
                 </AccordionDetails>
@@ -68,7 +68,7 @@ export default function StartupProject(props) {
                         finalActivationPercentage={finalActivationPercentage}
                         setFinalActivationPercentage={setFinalActivationPercentage}
                     />
-                    <Chart heading="Users Activated" data={usersAfterActivation} />
+                    <Chart heading="Users Activated per Period" data={usersAfterActivation} />
                 </AccordionDetails>
             </Accordion>
 
@@ -105,7 +105,7 @@ export default function StartupProject(props) {
                         setUsersRetainedAfterReferrals={setUsersRetainedAfterReferrals}
                         setCostOfReferrals={setCostOfReferrals}
                     />
-                    <Chart heading="Users Acquisition After Referrals" data={userAcquisitionAfterReferrals} />
+                    <Chart heading="Users Acquisition per Period after Referrals" data={userAcquisitionAfterReferrals} />
                     <Chart heading="Cumulative Users Retained After Referrals" data={usersRetainedAfterReferrals} />
 
                 </AccordionDetails>
@@ -122,8 +122,8 @@ export default function StartupProject(props) {
                         setTotalRevenue={setTotalRevenue}
                         usersAfterCompoundingGrowth={usersRetainedAfterReferrals}
                     />
-                    <Chart heading="Revenue" data={totalRevenue} />
-                    <Chart heading="Customer Acquisition Costs" data={acquisitionsCost.map((cost, index) => cost + costOfReferrals[index])} />
+                    <Chart heading="Revenue per Period" data={totalRevenue} />
+                    <Chart heading="Customer Acquisition Costs per Period" data={acquisitionsCost.map((cost, index) => cost + costOfReferrals[index])} />
                 </AccordionDetails>
             </Accordion>
 

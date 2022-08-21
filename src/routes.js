@@ -1,6 +1,6 @@
 import React from "react";
 import { Redirect, Switch, Route, Router } from "react-router-dom";
-import RouteGuard from "./components/RouteGuard"
+import RouteGuard from "./components/Auth Helpers/RouteGuard"
 
 //history
 import { history } from './helpers/history';

@@ -1,4 +1,4 @@
-import { setAuthToken } from "../helpers/setAuthToken";
+import { setAuthToken } from "../../helpers/setAuthToken";
 import axios from "axios";
 import React from "react";
 import { AppBar, Button, Toolbar, Typography, Stack } from "@mui/material"

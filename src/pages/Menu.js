@@ -1,13 +1,13 @@
 import axios from "axios";
 import React from "react";
-import NavigationBar from "../components/NavigationBar"
-import NewProjectForm from "../components/NewProjectForm"
+import NavigationBar from "../components/Main Page Components/NavigationBar"
+import NewProjectForm from "../components/Main Page Components/NewProjectForm"
 import StartupProject from "../components/StartupProjectComponents/StartupProject";
 import { Modal, Stack, Box, List, ListItemButton, CssBaseline, Drawer, Toolbar, Typography, IconButton, Button } from "@mui/material"
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const drawerWidth = 300;
+const drawerWidth = 200;
 
 function Menu() {
 
@@ -93,12 +93,12 @@ function Menu() {
             <Box sx={{ display: 'flex' }}>
                 <ProjectList />
 
-                <Stack width='90%' margin={15}>
+                <Stack width='100%' margin={10}>
                     {projects.length > 0
                         ?
                         <StartupProject key={selectedProjectIndex} project={projects[selectedProjectIndex]} />
                         :
-                        <Typography variant="h5">Click on the 'Add New Project' on the Right to add a startup project</Typography>
+                        <Typography variant="h5">Click on the 'Add New Project' button on the left panel to add a startup project</Typography>
                     }
                 </Stack>
             </Box >

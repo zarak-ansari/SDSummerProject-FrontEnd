@@ -59,7 +59,7 @@ function Referrals(props) {
         updateCostAndAcquisitions()
     }
 
-    React.useEffect(updateData, [props.usersAfterRetention, props.finalActivationPercentage])
+    React.useEffect(updateData, [props.usersAfterRetention])
 
     return (
         <>

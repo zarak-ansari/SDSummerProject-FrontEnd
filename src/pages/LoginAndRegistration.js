@@ -1,6 +1,6 @@
 import { Paper, Stack, Typography } from "@mui/material";
-import Login from "./Login";
-import Register from "./Register";
+import Login from "../components/Auth Helpers/Login";
+import Register from "../components/Auth Helpers/Register";
 import React from "react";
 
 function LoginAndRegistration() {

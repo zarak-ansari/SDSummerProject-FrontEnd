@@ -15,7 +15,7 @@ export default function AcquisitionElements(props) {
       label="Name of the Element"
       type="text"
       name="name"
-      placeholder="name"
+      placeholder="Name"
       value={element.name}
       onChange={(event) => handleChangeInAcquisitionElements(element.id, event)}
     />
