@@ -13,13 +13,15 @@ function Retention(props) {
     function handleChangeInDecayCurve(event) {
         let result = [...retentionCurve]
         const currentIndex = parseInt(event.target.name)
-        const lastValue = parseInt(event.target.name) - 1
-        if (!result[lastValue] || result[lastValue] <= event.target.value) {
-            result[currentIndex] = event.target.value
-            for (var i = currentIndex + 1; i < retentionCurve.length; i++) {
-                result[i] = Math.max(retentionCurve[i], retentionCurve[currentIndex])
-            }
+        // const lastValue = parseInt(event.target.name) - 1
+        result[currentIndex] = event.target.value
+        for (var i = currentIndex + 1; i < retentionCurve.length; i++) {
+            result[i] = Math.max(retentionCurve[i], retentionCurve[currentIndex])
         }
+        for (var j = currentIndex - 1; j >= 0; j--) {
+            result[j] = Math.min(retentionCurve[j], retentionCurve[currentIndex])
+        }
+
         setRetentionCurve(result)
     }
 

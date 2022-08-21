@@ -83,7 +83,7 @@ function Referrals(props) {
                     id="referralsPerUser"
                     type="number"
                     placeholder="Referrals per User"
-                    InputProps={{ inputProps: { min: 0 } }}
+                    InputProps={{ inputProps: { min: 0, step: 1 } }}
                     value={referrals.referralsPerUser}
                     onChange={(event) => handleChange(event)}
                 />
@@ -92,7 +92,7 @@ function Referrals(props) {
                     name="costPerReferral"
                     id="costPerReferral"
                     type="number"
-                    InputProps={{ inputProps: { min: 0 } }}
+                    InputProps={{ inputProps: { min: 0, step: 0.01 } }}
                     placeholder="Cost Per Referral"
                     value={referrals.costPerReferral}
                     onChange={(event) => handleChange(event)}

@@ -1,4 +1,4 @@
-import { TextareaAutosize, TextField, Button } from "@mui/material"
+import { TextareaAutosize, TextField, Button, Typography } from "@mui/material"
 import { Box, Stack } from "@mui/system"
 import axios from "axios"
 import React from "react"
@@ -38,11 +38,12 @@ function NewProjectForm(props) {
                 top: '50%',
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
-                width: 400,
+                width: 300,
                 padding: 2
             }}
         >
-            <Stack spacing={1.5}>
+            <Stack spacing={1.5} >
+                <Typography variant="h5" sx={{ textAlign: "center" }}>Add New Project</Typography>
                 <TextField label="Name of the Project" type="text" id="name" name="name" value={formData.name} onChange={handleChange} />
                 <TextareaAutosize placeholder="Description" minRows={5} type="text" id="description" name="description" value={formData.description} onChange={handleChange} />
                 <TextField label="Number of Periods" type="number" id="numberOfPeriods" name="numberOfPeriods" value={formData.numberOfPeriods} onChange={handleChange} />

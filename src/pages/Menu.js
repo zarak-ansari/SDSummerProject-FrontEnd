@@ -3,7 +3,7 @@ import React from "react";
 import NavigationBar from "../components/NavigationBar"
 import NewProjectForm from "../components/NewProjectForm"
 import StartupProject from "../components/StartupProjectComponents/StartupProject";
-import { Modal, Stack, Box, List, ListItemButton, CssBaseline, Drawer, Toolbar, Typography, IconButton } from "@mui/material"
+import { Modal, Stack, Box, List, ListItemButton, CssBaseline, Drawer, Toolbar, Typography, IconButton, Button } from "@mui/material"
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -51,7 +51,8 @@ function Menu() {
                 <Toolbar />
                 <Box sx={{ overflow: 'auto' }}>
                     <List>
-                        <Typography variant="h4">Projects<IconButton onClick={handleOpen}><AddBoxIcon fontSize="large" /></IconButton></Typography>
+                        <Typography variant="h4" sx={{ margin: 2 }}>Projects</Typography>
+                        <Button startIcon={<AddBoxIcon />} variant="contained" onClick={handleOpen} sx={{ margin: 2 }}>Add New Project</Button>
                         {
                             projects.map(project => {
                                 return <ListItemButton
@@ -93,7 +94,12 @@ function Menu() {
                 <ProjectList />
 
                 <Stack width='90%' margin={15}>
-                    {projects.length > 0 && <StartupProject key={selectedProjectIndex} project={projects[selectedProjectIndex]} />}
+                    {projects.length > 0
+                        ?
+                        <StartupProject key={selectedProjectIndex} project={projects[selectedProjectIndex]} />
+                        :
+                        <Typography variant="h5">Click on the 'Add New Project' on the Right to add a startup project</Typography>
+                    }
                 </Stack>
             </Box >
         </>

@@ -31,7 +31,7 @@ export default function AcquisitionElements(props) {
       label="Acquisitions Per Period"
       name="startingValue"
       type="number"
-      InputProps={{ inputProps: { min: 0 } }}
+      InputProps={{ inputProps: { min: 0, step: 1 } }}
       placeholder="Starting Value"
       value={element.startingValue}
       onChange={(event) => handleChangeInAcquisitionElements(element.id, event)}
@@ -39,7 +39,7 @@ export default function AcquisitionElements(props) {
     <TextField
       label="Increase in Acquisitions per Period"
       type="number"
-      InputProps={{ inputProps: { min: 0 } }}
+      InputProps={{ inputProps: { min: 0, step: 1 } }}
       name="incrementEachPeriod"
       placeholder="Increase Each Period"
       value={element.incrementEachPeriod}

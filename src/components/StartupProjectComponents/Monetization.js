@@ -46,7 +46,7 @@ function Monetization(props) {
                     onChange={(event) => setRevenuePerUserPerPeriod(event.target.value)}
                 />
                 <Divider />
-                <Button startIcon={<SaveIcon />} variant="contained" onClick={calculateRevenue}>Update Data</Button>
+                <Button startIcon={<SaveIcon />} variant="contained" onClick={calculateRevenue}>Save and Update</Button>
             </Stack>
 
         </>
