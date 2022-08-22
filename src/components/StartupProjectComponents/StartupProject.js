@@ -7,6 +7,7 @@ import Referrals from "./Referrals"
 import Monetization from "./Monetization";
 import { Typography, Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Blurb from "./Blurb"
 
 export default function StartupProject(props) {
     const numberOfPeriods = props.project.numberOfPeriods
@@ -41,6 +42,7 @@ export default function StartupProject(props) {
                     <Typography variant="h5">Acquisition</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
+                    <Blurb section="Acquisitions" />
                     <AcquisitionElements
                         numberOfPeriods={numberOfPeriods}
                         projectId={props.project.id}
@@ -60,6 +62,8 @@ export default function StartupProject(props) {
                     <Typography variant="h5">Activation</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
+                    <Blurb section="Activation" />
+
                     <Activation
                         acquisitions={acquisitions}
                         projectId={props.project.id}
@@ -77,6 +81,8 @@ export default function StartupProject(props) {
                     <Typography variant="h5">Retention</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
+                    <Blurb section="Retention" />
+
                     <Retention
                         projectId={props.project.id}
                         retentionCurve={retentionCurve}
@@ -94,6 +100,8 @@ export default function StartupProject(props) {
                     <Typography variant="h5">Referrals</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
+                    <Blurb section="Referrals" />
+
                     <Referrals
                         projectId={props.project.id}
                         referrals={props.project.referrals}
@@ -116,6 +124,8 @@ export default function StartupProject(props) {
                     <Typography variant="h5">Monetization</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
+                    <Blurb section="Monetization" />
+
                     <Monetization
                         projectId={props.project.id}
                         monetization={props.project.monetization}

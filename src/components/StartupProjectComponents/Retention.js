@@ -42,7 +42,7 @@ function Retention(props) {
         <>
             <Stack direction="row" spacing={3}>
                 <IconButton color="primary" size="small" onClick={() => setRetentionCurve(prev => prev.filter((element, index) => index !== prev.length - 1))}><RemoveIcon /></IconButton>
-                <Typography variant="h5">Retention Period: {retentionCurve.length}</Typography>
+                <Typography variant="h6">Retention Period: {retentionCurve.length}</Typography>
                 <IconButton color="primary" size="small" onClick={() => setRetentionCurve(prev => [...prev, 1.0])} ><AddIcon /></IconButton>
             </Stack>
             <List>
