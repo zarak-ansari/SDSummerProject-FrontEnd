@@ -91,7 +91,7 @@ export default function StartupProject(props) {
                         activatedUsers={usersAfterActivation}
                         setRetainedUsers={setTotalUsersRetained}
                     />
-                    <Chart heading="Cumulative Users Retained" data={totalUsersRetained} />
+                    <Chart heading="Active Retained Users" data={totalUsersRetained} />
                 </AccordionDetails>
             </Accordion>
 
@@ -114,7 +114,7 @@ export default function StartupProject(props) {
                         setCostOfReferrals={setCostOfReferrals}
                     />
                     <Chart heading="Users Acquisition per Period after Referrals" data={userAcquisitionAfterReferrals} />
-                    <Chart heading="Cumulative Users Retained After Referrals" data={usersRetainedAfterReferrals} />
+                    <Chart heading="Active Retained After Referrals" data={usersRetainedAfterReferrals} />
 
                 </AccordionDetails>
             </Accordion>
