@@ -4,7 +4,7 @@ import { LineChart, Line, CartesianGrid, YAxis, ResponsiveContainer, XAxis, Tool
 
 export default function Chart(props) {
     const chartData = []
-    props.data.map((element, index) => chartData.push({ period: index, [props.heading]: element }))
+    props.data.map((element, index) => chartData.push({ period: index, [props.heading]: Math.round(element) }))
 
     return (
         <Paper sx={{ margin: 2, padding: 5 }}>
